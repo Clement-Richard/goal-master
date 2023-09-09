@@ -27,31 +27,53 @@
             >
           </li>
           <li>
-            <a
-              href="matchs"
+            <nuxt-link
+              to="/matchs"
               class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-              >Matchs</a
+              aria-current="page"
+              >Matchs</nuxt-link
             >
           </li>
           <li>
-            <a
-              href="profil"
+            <nuxt-link
+              to="/profil"
               class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-              >Profil</a
+              aria-current="page"
+              >Profil</nuxt-link
             >
           </li>
           <li>
-            <a
-              href="contact"
+            <nuxt-link
+              to="/contact"
               class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-              >Contact</a
+              aria-current="page"
+              >Contact</nuxt-link
             >
           </li>
-          <li>
-            <a
-              href="deconnexion"
+          <li v-if="authStore.isLoggedIn">
+            <nuxt-link
+              @click="logout"
+              to="/"
               class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-              >Deconnexion</a
+              aria-current="page"
+            >
+            Déconnexion
+            </nuxt-link>
+          </li>
+          <li v-if="!authStore.isLoggedIn">
+            <nuxt-link
+              to="/register"
+              class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+              aria-current="page"
+              >Inscription</nuxt-link
+            >
+          </li>
+          <li v-if="!authStore.isLoggedIn">
+            <nuxt-link
+              to="/login"
+              class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+              aria-current="page"
+              >Connexion</nuxt-link
             >
           </li>
         </ul>
@@ -59,3 +81,13 @@
     </div>
   </nav>
 </template>
+
+<script setup>
+import { useAuthStore } from "~/store/auth";
+
+const authStore = useAuthStore();
+
+function logout() {
+  authStore.logout();
+}
+</script>
