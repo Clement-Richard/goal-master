@@ -1,52 +1,17 @@
-// store/auth.ts
-import { Module, VuexModule, Mutation, Action } from "vuex-module-decorators";
+import { defineStore } from 'pinia'
 
-@Module
-export default class AuthStore extends VuexModule {
-  private token: string | null = null;
+export const useAuthStore: any = defineStore('auth', () => {
+  const isLoggedIn = ref(false);
+  const user = ref(null);
 
-  // Getter pour vérifier si l'utilisateur est authentifié
-  get isAuthenticated(): boolean {
-    return !!this.token;
+  function login(credentials: any) {
+    isLoggedIn.value = true;
+    console.log(credentials);
   }
 
-  // Mutation pour définir le token dans le store
-  @Mutation
-  private setToken(token: string | null) {
-    this.token = token;
+  function logout() {
+    isLoggedIn.value = false;
   }
 
-  // Action pour effectuer la connexion
-  @Action
-  async login(credentials: { email: string; password: string }) {
-    try {
-      // Effectuez votre requête d'authentification ici
-      const response = await fetch(
-        "http://skymunt.fr:3000/api/goalMaster/security/login",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(credentials),
-        }
-      );
-
-      if (response.ok) {
-        const data = await response.json();
-        this.context.commit("setToken", data.token); // Utilisez commit pour déclencher la mutation
-      } else {
-        // Gérez les erreurs d'authentification ici
-      }
-    } catch (error) {
-      // Gérez les erreurs de connexion réseau ici
-    }
-  }
-
-  // Action pour déconnecter l'utilisateur
-  @Action
-  logout() {
-    // Déconnectez l'utilisateur en appelant la mutation avec un token null
-    this.context.commit("setToken", null);
-  }
-}
+  return { isLoggedIn, user, login, logout }
+})

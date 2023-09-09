@@ -16,8 +16,9 @@
     "typescript": "^5.2.2"
   },
   "dependencies": {
+    "@pinia/nuxt": "^0.4.11",
     "@stripe/stripe-js": "^2.1.2",
     "nuxt": "^3.7.1",
-    "vuex-module-decorators": "^2.0.0"
+    "pinia": "^2.1.6"
   }
 }
