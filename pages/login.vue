@@ -30,29 +30,18 @@ export default {
   methods: {
     async login() {
       try {
-        const response = await fetch(
-          "http://skymunt.fr:3000/api/goalMaster/security/login",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              email: this.email,
-              password: this.password,
-            }),
-          }
-        );
+        await this.$auth.loginWith("local", {
+          data: {
+            email: this.email,
+            password: this.password,
+          },
+        });
 
-        if (response.ok) {
-          this.$router.push("/");
-        } else {
-          const data = await response.json();
-          this.errorMessage = data.message || "Échec de la connexion.";
-        }
+        // La connexion a réussi, vous pouvez rediriger l'utilisateur vers une autre page ici si nécessaire.
+        this.$router.push("/"); // Par exemple, rediriger vers la page d'accueil
       } catch (error) {
         console.error("Erreur lors de la connexion :", error);
-        this.errorMessage = "Une erreur s'est produite lors de la connexion.";
+        this.errorMessage = "Échec de la connexion.";
       }
     },
   },
