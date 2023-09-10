@@ -1,49 +1,27 @@
 <template>
+  <!-- Votre template reste inchangé -->
   <div>
-    <h2>Formulaire de Connexion</h2>
-    <form @submit.prevent="login">
-      <div>
-        <label for="email">Email :</label>
-        <input type="email" id="email" v-model="email" required />
-      </div>
-      <div>
-        <label for="password">Mot de passe :</label>
-        <input type="password" id="password" v-model="password" required />
-      </div>
-      <div>
-        <button type="submit">Se connecter</button>
-      </div>
-    </form>
-    <div v-if="errorMessage">{{ errorMessage }}</div>
+    <input v-model="email" placeholder="Email" />
+    <input v-model="password" placeholder="Mot de passe" type="password" />
+    <button @click="performLogin">Connexion</button>
+    <p>{{ errorMessage }}</p>
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      email: "",
-      password: "",
-      errorMessage: "",
-    };
-  },
-  methods: {
-    async login() {
-      try {
-        await this.$auth.loginWith("local", {
-          data: {
-            email: this.email,
-            password: this.password,
-          },
-        });
+<script setup>
+import { useAuthStore } from "~/store/auth.ts";
 
-        // La connexion a réussi, vous pouvez rediriger l'utilisateur vers une autre page ici si nécessaire.
-        this.$router.push("/"); // Par exemple, rediriger vers la page d'accueil
-      } catch (error) {
-        console.error("Erreur lors de la connexion :", error);
-        this.errorMessage = "Échec de la connexion.";
-      }
-    },
-  },
-};
+const { login } = useAuthStore();
+const email = ref("");
+const password = ref("");
+const errorMessage = ref("");
+
+async function performLogin() {
+  try {
+    await login({ email: email.value, password: password.value });
+    console.log("connexion ok");
+  } catch (error) {
+    console.log(error.message);
+  }
+}
 </script>

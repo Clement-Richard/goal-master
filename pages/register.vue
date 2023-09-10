@@ -50,44 +50,34 @@
   </div>
 </template>
 
-<script lang="ts">
-export default {
-  data() {
-    return {
-      formData: {
-        email: "",
-        password: "",
-        username: "",
-      },
-    };
-  },
-  methods: {
-    async register() {
-      try {
-        const response = await fetch(
-          "http://skymunt.fr:3000/api/goalMaster/accounts",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(this.formData),
-          }
-        );
+<script setup>
+const router = useRouter();
+const formData = ref({
+  email: "",
+  password: "",
+  username: "",
+});
 
-        if (response.ok) {
-          const responseData = await response.json();
-          console.log("Réponse de la requête POST :", responseData);
-        } else {
-          console.error(
-            "Erreur lors de la requête POST :",
-            response.statusText
-          );
-        }
-      } catch (error) {
-        console.error("Erreur lors de la requête POST :", error);
+const register = async () => {
+  try {
+    const response = await fetch(
+      "http://skymunt.fr:3000/api/goalMaster/accounts",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData.value),
       }
-    },
-  },
+    );
+
+    if (response.ok) {
+      router.push("/login");
+    } else {
+      console.error("Erreur lors de la requête POST :", response.statusText);
+    }
+  } catch (error) {
+    console.error("Erreur lors de la requête POST :", error);
+  }
 };
 </script>
