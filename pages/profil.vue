@@ -87,23 +87,41 @@
           </tr>
         </tbody>
       </table>
+      <div class="mt-4 flex justify-center">
+        <button
+          class="px-4 py-2 bg-blue-500 text-white mr-2"
+          @click="previousPage"
+          :disabled="pageNumber === 1"
+        >
+          Précédent
+        </button>
+        <button
+          class="px-4 py-2 bg-blue-500 text-white"
+          @click="nextPage"
+          :disabled="pageNumber === totalPages"
+        >
+          Suivant
+        </button>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { computed } from "vue";
 import { useAuthStore } from "~/store/auth.ts";
 
 const authStore = useAuthStore();
 const isLoggedIn = computed(() => authStore.isLoggedIn);
 const user = computed(() => authStore.user);
 const usersList = ref([]);
+const pageSize = 10;
+let pageNumber = ref(1);
+let totalPages = ref(0);
 
 const getTabUsers = async (sortByField) => {
   try {
     const response = await fetch(
-      `http://skymunt.fr:3000/api/goalMaster/accounts?sortOrder=desc&sortBy=${sortByField}`,
+      `http://skymunt.fr:3000/api/goalMaster/accounts?limit=${pageSize}&pageNumber=${pageNumber.value}&sortOrder=desc&sortBy=${sortByField}`,
       {
         method: "GET",
         headers: {
@@ -115,6 +133,7 @@ const getTabUsers = async (sortByField) => {
     if (response.ok) {
       const data = await response.json();
       usersList.value = data.res.items;
+      totalPages.value = data.res.totalPages;
     } else {
       console.error("La requête a échoué avec le statut :", response.status);
     }
@@ -122,6 +141,21 @@ const getTabUsers = async (sortByField) => {
     console.error("Erreur lors de la requête POST :", error);
   }
 };
+
+const previousPage = () => {
+  if (pageNumber.value > 1) {
+    pageNumber.value -= 1;
+    getTabUsers("matchsPlayed");
+  }
+};
+
+const nextPage = () => {
+  if (pageNumber.value < totalPages.value) {
+    pageNumber.value += 1;
+    getTabUsers("matchsPlayed");
+  }
+};
+
 onMounted(() => {
   getTabUsers("matchsWon");
 });
