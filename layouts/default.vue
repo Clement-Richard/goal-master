@@ -2,8 +2,8 @@ import { Navbar } from '../.nuxt/components';
 <template>
   <div>
     <Sidebar class="z-50" :sidebarIsOpened="sidebarIsOpened" @toggle-sidebar="toggleSidebar"/>
-    <div class="transition duration-300" id="content">
-      <div :class="sidebarIsOpened ?  'ml-64' : 'ml-16'">
+    <div class="transition duration-300 content" id="content">
+      <div :class="sidebarIsOpened ?  'ml-64' : 'ml-16'" >
         <slot />
       </div>
     </div>
