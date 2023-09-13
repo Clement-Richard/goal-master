@@ -1,7 +1,7 @@
 <template>
   <aside
     class="bg-zinc-900 text-white w-64 flex-shrink-0 h-screen fixed top-0 left-0 transform translate-x-0 transition-transform duration-300 ease-in-out flex flex-col"
-    :class="sidebarIsOpened ? 'translate-x-0' : '-translate-x-48'"
+    :class="sidebarIsOpened ? 'sidebar-opened' : 'sidebar-closed'"
   >
     <div class="p-4 ml-1 text-2xl font-semibold flex flex-row">
       <img
@@ -19,7 +19,7 @@
           to="/"
           class="flex items-center py-2 ml-1 mr-1 px-4 w-full text-white bg-gradient-to-r from-emerald-700 to-emerald-500 rounded-lg hover:bg-gradient-to-r hover:from-emerald-600 hover:to-emerald-300 duration-300 hover:-translate-y-1 hover:scale-100"
           :class="
-            sidebarIsOpened ? 'translate-x-0' : 'w-14 translate-x-44'
+            sidebarIsOpened ? 'translate-x-0' : 'sidebar-btn-cut'
           "
         >
           <span class="mr-2"
@@ -33,7 +33,7 @@
           to="/matchs"
           class="flex items-center py-2 ml-1 mr-1 px-4 w-full text-white bg-gradient-to-r from-emerald-700 to-emerald-500 rounded-lg hover:bg-gradient-to-r hover:from-emerald-600 hover:to-emerald-300 duration-300 hover:-translate-y-1 hover:scale-100"
           :class="
-            sidebarIsOpened ? 'translate-x-0' : 'w-14 translate-x-44'
+            sidebarIsOpened ? 'translate-x-0' : 'sidebar-btn-cut'
           "
         >
           <span class="mr-2"
@@ -47,7 +47,7 @@
           to="/profil"
           class="flex items-center py-2 ml-1 mr-1 px-4 w-full text-white bg-gradient-to-r from-emerald-700 to-emerald-500 rounded-lg hover:bg-gradient-to-r hover:from-emerald-600 hover:to-emerald-300 duration-300 hover:-translate-y-1 hover:scale-100"
           :class="
-            sidebarIsOpened ? 'translate-x-0' : 'w-14 translate-x-44'
+            sidebarIsOpened ? 'translate-x-0' : 'sidebar-btn-cut'
           "
         >
           <span class="mr-2"><icons.user class="navbar-link-icon" /></span>
@@ -59,7 +59,7 @@
           to="/contact"
           class="flex items-center py-2 ml-1 mr-1 px-4 w-full text-white bg-gradient-to-r from-emerald-700 to-emerald-500 rounded-lg hover:bg-gradient-to-r hover:from-emerald-600 hover:to-emerald-300 duration-300 hover:-translate-y-1 hover:scale-100"
           :class="
-            sidebarIsOpened ? 'translate-x-0' : 'w-14 translate-x-44'
+            sidebarIsOpened ? 'translate-x-0' : 'sidebar-btn-cut'
           "
         >
           <span class="mr-2"><icons.envelope class="navbar-link-icon" /></span>
@@ -72,7 +72,7 @@
           to="/"
           class="flex items-center py-2 ml-1 mr-1 px-4 w-full text-white bg-gradient-to-r from-emerald-700 to-emerald-500 rounded-lg hover:bg-gradient-to-r hover:from-emerald-600 hover:to-emerald-300 duration-300 hover:-translate-y-1 hover:scale-100"
           :class="
-            sidebarIsOpened ? 'translate-x-0' : 'w-14 translate-x-44'
+            sidebarIsOpened ? 'translate-x-0' : 'sidebar-btn-cut'
           "
         >
           <span class="mr-2"><icons.doorLeave class="navbar-link-icon" /></span>
@@ -84,7 +84,7 @@
           to="/register"
           class="flex items-center py-2 ml-1 mr-1 px-4 w-full text-white bg-gradient-to-r from-emerald-700 to-emerald-500 rounded-lg hover:bg-gradient-to-r hover:from-emerald-600 hover:to-emerald-300 duration-300 hover:-translate-y-1 hover:scale-100"
           :class="
-            sidebarIsOpened ? 'translate-x-0' : 'w-14 translate-x-44'
+            sidebarIsOpened ? 'translate-x-0' : 'sidebar-btn-cut'
           "
         >
           <span class="mr-2"
@@ -98,7 +98,7 @@
           to="/register"
           class="flex items-center py-2 ml-1 mr-1 px-4 w-full text-white bg-gradient-to-r from-emerald-700 to-emerald-500 rounded-lg hover:bg-gradient-to-r hover:from-emerald-600 hover:to-emerald-300 duration-300 hover:-translate-y-1 hover:scale-100"
           :class="
-            sidebarIsOpened ? 'translate-x-0' : 'w-14 translate-x-44'
+            sidebarIsOpened ? 'translate-x-0' : 'sidebar-btn-cut'
           "
         >
           <span class="mr-2"

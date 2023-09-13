@@ -154,7 +154,6 @@ const checkGameInProgress = async () => {
 
 const refreshInProgressMatches = () => {
   checkGameInProgress();
-  console.log("In Progress Matches refreshed at:", new Date());
 };
 
 const intervalId = setInterval(refreshInProgressMatches, 5000);
