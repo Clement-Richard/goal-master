@@ -1,1 +1,162 @@
-<template></template>
+<template>
+  <div class="bg-gray-100 py-8 mb-16 flex flex-col md:flex-row">
+    <!-- User Profile -->
+    <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 md:w-1/2">
+      <h1 class="text-2xl font-semibold mb-4">Profil de l'utilisateur</h1>
+      <div v-if="isLoggedIn" class="bg-white rounded-lg shadow-md p-4">
+        <p class="text-lg">
+          Nom d'utilisateur :
+          <span class="font-semibold">{{
+            user ? user.username : "Chargement en cours..."
+          }}</span>
+        </p>
+        <p class="text-lg mt-4">
+          Email :
+          <span class="font-semibold">{{
+            user ? user.email : "Chargement en cours..."
+          }}</span>
+        </p>
+        <p class="text-lg mt-4">
+          Parties jouées :
+          <span class="font-semibold">{{
+            user ? user.matchsPlayed : "Chargement en cours..."
+          }}</span>
+        </p>
+        <p class="text-lg mt-4">
+          Parties gagnées :
+          <span class="font-semibold">{{
+            user ? user.matchsWon : "Chargement en cours..."
+          }}</span>
+        </p>
+        <p class="text-lg mt-4">
+          Parties perdues :
+          <span class="font-semibold">{{
+            user ? user.matchsLost : "Chargement en cours..."
+          }}</span>
+        </p>
+        <p class="text-lg mt-4">
+          Date de création du compte :
+          <span class="font-semibold">{{
+            user ? user.createdAt : "Chargement en cours..."
+          }}</span>
+        </p>
+        <p class="text-lg mt-4">
+          Date de mise à jour du compte :
+          <span class="font-semibold">{{
+            user ? user.updatedAt : "Chargement en cours..."
+          }}</span>
+        </p>
+      </div>
+      <div v-else class="bg-white rounded-lg shadow-md p-4">
+        <p class="text-lg">Vous n'êtes pas connecté.</p>
+      </div>
+    </div>
+
+    <!-- List of Players -->
+    <div class="p-4 md:w-1/2">
+      <h1 class="text-2xl font-semibold mb-4">Classement</h1>
+      <table class="min-w-full table-auto">
+        <thead>
+          <tr>
+            <th class="px-4 py-2 text-center">Pseudo</th>
+            <th class="px-4 py-2 text-center">
+              <button @click="getTabUsers('matchsPlayed')">
+                Matches joués
+              </button>
+            </th>
+            <th class="px-4 py-2 text-center">
+              <button @click="getTabUsers('matchsWon')">Matches gagnés</button>
+            </th>
+            <th class="px-4 py-2 text-center">
+              <button @click="getTabUsers('matchsLost')">Matches perdus</button>
+            </th>
+            <th class="px-4 py-2 text-center">Email</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            v-for="userList in usersList"
+            :key="userList.id"
+            class="bg-gray-100"
+          >
+            <td class="px-4 py-2 text-center">{{ userList.username }}</td>
+            <td class="px-4 py-2 text-center">{{ userList.matchsPlayed }}</td>
+            <td class="px-4 py-2 text-center">{{ userList.matchsWon }}</td>
+            <td class="px-4 py-2 text-center">{{ userList.matchsLost }}</td>
+            <td class="px-4 py-2">{{ userList.email }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="mt-4 flex justify-center">
+        <button
+          class="px-4 py-2 bg-blue-500 text-white mr-2"
+          @click="previousPage"
+          :disabled="pageNumber === 1"
+        >
+          Précédent
+        </button>
+        <button
+          class="px-4 py-2 bg-blue-500 text-white"
+          @click="nextPage"
+          :disabled="pageNumber === totalPages"
+        >
+          Suivant
+        </button>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { useAuthStore } from "~/store/auth.ts";
+
+const authStore = useAuthStore();
+const isLoggedIn = computed(() => authStore.isLoggedIn);
+const user = computed(() => authStore.user);
+const usersList = ref([]);
+const pageSize = 10;
+let pageNumber = ref(1);
+let totalPages = ref(0);
+
+const getTabUsers = async (sortByField) => {
+  try {
+    const response = await fetch(
+      `http://skymunt.fr:3000/api/goalMaster/accounts?limit=${pageSize}&pageNumber=${pageNumber.value}&sortOrder=desc&sortBy=${sortByField}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    if (response.ok) {
+      const data = await response.json();
+      usersList.value = data.res.items;
+      totalPages.value = data.res.totalPages;
+    } else {
+      console.error("La requête a échoué avec le statut :", response.status);
+    }
+  } catch (error) {
+    console.error("Erreur lors de la requête POST :", error);
+  }
+};
+
+const previousPage = () => {
+  if (pageNumber.value > 1) {
+    pageNumber.value -= 1;
+    getTabUsers("matchsPlayed");
+  }
+};
+
+const nextPage = () => {
+  if (pageNumber.value < totalPages.value) {
+    pageNumber.value += 1;
+    getTabUsers("matchsPlayed");
+  }
+};
+
+onMounted(() => {
+  getTabUsers("matchsWon");
+});
+</script>
