@@ -95,7 +95,7 @@
       </li>
       <li v-if="!authStore.isLoggedIn">
         <nuxt-link
-          to="/register"
+          to="/login"
           class="flex items-center py-2 ml-1 mr-1 px-4 w-full text-white bg-gradient-to-r from-emerald-700 to-emerald-500 rounded-lg hover:bg-gradient-to-r hover:from-emerald-600 hover:to-emerald-300 duration-300 hover:-translate-y-1 hover:scale-100"
           :class="
             sidebarIsOpened ? 'translate-x-0' : 'sidebar-btn-cut'

@@ -27,12 +27,14 @@
             class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
           />
         </div>
-        <button
-          type="submit"
-          class="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300"
-        >
-          Connexion
-        </button>
+        <div class="flex justify-center items-center">
+          <button
+            type="submit"
+            class="py-2 ml-1 mt-2 mr-1 px-4 w-36 text-white bg-gradient-to-r from-zinc-700 to-zinc-500 rounded-lg transform hover:scale-105 hover:shadow-md transition-transform duration-300"
+          >
+            Connexion
+          </button>
+        </div>
       </form>
       <p class="text-red-500 mt-4">{{ errorMessage }}</p>
     </div>
